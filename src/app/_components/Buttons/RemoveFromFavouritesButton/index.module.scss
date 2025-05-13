@@ -1,0 +1,7 @@
+@import '../../../_css/common';
+
+.removeFromFavouritesButton {
+  all: unset;
+  cursor: pointer;
+  @extend %label;
+}

@@ -1,0 +1,16 @@
+@import '../../../_css/common';
+
+.cart {
+  margin: 30px 0;
+}
+
+.favouriteWrapper {
+  display: grid;
+  gap: 60px;
+  border-top: 1px solid var(--color-dark-50);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+  @include small-break {
+    grid-template-columns: 1fr;
+  }
+}

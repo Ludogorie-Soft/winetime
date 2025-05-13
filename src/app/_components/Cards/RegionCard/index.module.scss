@@ -1,0 +1,18 @@
+@use '../../../_css/queries.scss' as *;
+
+.card {
+    position: relative;
+    background-color: var(--color-dark-50);
+    min-height: 300px;
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 20px;
+    cursor: pointer;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

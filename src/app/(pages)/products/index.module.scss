@@ -1,0 +1,12 @@
+@import '../../_css/common';
+
+.container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.products {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}

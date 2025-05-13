@@ -1,0 +1,54 @@
+@use '../../../_css/queries.scss' as *;
+
+.header {
+    padding: 18.5px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.1s ease-in-out;
+    background: white;
+    box-shadow: 0 0 10px #0000001c;
+    z-index: 40 !important;
+
+    &.small {
+        padding: 8px 0;
+    }
+
+    @include small-break {
+        padding: 14px 0;
+        position: static;
+    }
+
+    img {
+        height: 45px;
+
+        @include small-break {
+        height: 35px;
+        }
+    }
+}
+
+.wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: calc(var(--base) / 2) var(--base);
+
+    @include small-break {
+        gap: 0;
+        flex-wrap: nowrap;
+    }
+}
+
+.menuBurger {
+    display: none;
+
+    @include small-break {
+        display: block;
+    }
+}
+
+.hide {
+    display: none;
+}

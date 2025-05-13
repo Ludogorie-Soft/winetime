@@ -1,0 +1,35 @@
+@import "../../../../_css/common";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--base);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--base);
+}
+
+.loaderWrapper {
+  position: relative;
+}
+
+.loader {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: gray;
+}
+
+.priceWrapper {
+  margin: 10px 0;
+}
+
+.icon {
+  margin-right: 5px;
+  vertical-align: middle;
+}

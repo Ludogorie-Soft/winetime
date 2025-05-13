@@ -1,0 +1,16 @@
+@use '../../../_css/queries.scss' as *;
+
+.card {
+    position: relative;
+    background-color: var(--color-dark-50);
+    height: 120px;
+    width: 150px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    cursor: pointer;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,12 @@
+@import '../../_css/common';
+
+.container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.blog {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+}

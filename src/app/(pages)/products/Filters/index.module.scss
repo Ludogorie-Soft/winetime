@@ -1,0 +1,48 @@
+@import '../../../_css/common';
+
+.filters {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+
+    @include small-break {
+        margin-top: 20px;
+    }
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 16px;
+    margin-top: 20px;
+}
+
+.title {
+    white-space: nowrap;
+}
+
+.priceSlider {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.sliderWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    p {
+        white-space: nowrap;
+    }
+}
+
+.hr {
+    margin: 20px 0;
+}
+
+.iconGap {
+    margin-left: 8px;
+}

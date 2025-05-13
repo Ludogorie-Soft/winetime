@@ -1,0 +1,91 @@
+@use '../../../_css/queries.scss' as *;
+
+.nav {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+  opacity: 1;
+  transition: opacity 100ms linear;
+  visibility: visible;
+
+  > * {
+    text-decoration: none;
+  }
+
+  .navMenu {
+    display: flex;
+    gap: calc(var(--base) / 4) var(--base);
+    align-items: center;
+    flex-wrap: wrap;
+
+    @include small-break {
+      display: none;
+    }
+  }
+}
+
+.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hideOnMobile {
+  padding-bottom: 3px;
+  
+  @include small-break {
+    display: none;
+  }
+}
+
+.buttonHeader {
+  font-weight: 500;
+  font-size: 15px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+
+.navLinkText {
+  position: relative;
+  display: inline;
+}
+
+.navLinkText::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background-color: black;
+  transform: scaleX(0);
+  transform-origin: bottom left;
+  transition: transform 0.3s ease;
+}
+
+.navLinkText:hover::after {
+  transform: scaleX(1);
+}
+
+.buttonHeader:hover img {
+  transform: rotateX(180deg);
+  transition: transform 0.4s ease;
+}
+
+.linkIcon {
+  padding-bottom: 3px;
+  
+  @include small-break {
+      display: none;
+    }
+}
+
+.removeMobile {
+  @include small-break {
+      display: none;
+    }
+}

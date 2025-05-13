@@ -1,0 +1,60 @@
+@use '../../../_css/queries.scss' as *;
+
+.favouritesLink {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: -2px;
+}
+.heartIcon {
+  width: 26px;
+  height: 26px;
+  color: black;
+  transition: transform 1s, fill 1s, color 1s ease-in-out;
+}
+
+.heartIcon:hover {
+  animation: growAndColorHeart 1s forwards;
+
+  @include small-break {
+    animation: none;
+  }
+}
+
+.quantityBadge {
+  background-color: orange;
+  color: white;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: 0;
+  right: -6px;
+  font-size: 12px;
+  line-height: 21px;
+  text-align: center;
+  font-weight: bold;
+
+  @include mid-break {
+    top: -2px;
+    right: -8px;
+  }
+}
+
+@keyframes growAndColorHeart {
+  0% {
+    transform: scale(1);
+    fill: transparent;
+  }
+
+  50% {
+    transform: scale(1.1);
+    fill: red;
+  }
+
+  100% {
+    transform: scale(1);
+    fill: black;
+  }
+}

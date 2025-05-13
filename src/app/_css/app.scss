@@ -1,0 +1,89 @@
+@use './queries.scss' as *;
+@use './colors.scss' as *;
+@use './type.scss' as *;
+@import "./theme.scss";
+@import 'tailwind.scss';
+
+:root {
+  --base: 24px;
+  --font-body: 'Jost', sans-serif;
+  --font-jost: 'Jost', sans-serif;
+
+  --gutter-h: 180px;
+  --block-padding: 120px;
+
+  @include large-break {
+    --gutter-h: 144px;
+    --block-padding: 96px;
+  }
+
+  @include mid-break {
+    --gutter-h: 24px;
+    --block-padding: 60px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  @extend %body;
+  background: var(--theme-bg);
+  -webkit-font-smoothing: antialiased;
+  opacity: 0;
+
+  &[data-theme=dark],
+  &[data-theme=light] {
+    opacity: initial;
+  }
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-jost);
+  margin: 0;
+  padding: 0;
+  color: var(--color-dark-500);
+
+  display: flex;
+  flex-flow: column;
+}
+
+.main {
+  flex: 1 1 auto;
+}
+
+::selection {
+  background: var(--color-dark-500);
+  color: var(--color-base-800);
+}
+
+::-moz-selection {
+  background: var(--color-dark-50);
+  color: var(--color-base-800);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+svg {
+  vertical-align: middle;
+}
+
+.tru_cookie-dialog_d,
+.truendo_container,
+.tru_overlay,
+.tru_cookie-dialog_d,
+.truendo_container .tru_cookie-dialog_d
+ {
+    z-index: 40 !important;
+}

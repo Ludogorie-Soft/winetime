@@ -1,0 +1,20 @@
+@use '../../_css/common.scss' as *;
+
+.container {
+  margin-top: 50px;
+  width: 100%;
+
+  @include small-break {
+    margin-top: 30px;
+  }
+}
+
+.listItem {
+  list-style-type: none; 
+  margin-left: 20px;
+
+  &:before {
+    content: "- ";
+    margin-right: 5px;
+  }
+}
