@@ -8,7 +8,7 @@ ENV DATABASE_URI=mongodb://nojtGKnywinetime:nxUWLHq5p9oTpPxqgVNf6LuXAyBiYgW5@ssg
 ENV PAYLOAD_SECRET=89c01fd4-ed35-4d5c-b165-6e4372513702
 
 WORKDIR /home/node/app
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
 COPY . .
 RUN yarn install

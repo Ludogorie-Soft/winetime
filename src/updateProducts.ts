@@ -47,7 +47,6 @@ export const updateProducts = async () => {
     console.log('Fetched Eyanak data:', yanakStocks)
 
     const products = await fetchYanakProducts()
-    console.log('Fetched products from database:', products)
 
     const productsMap = new Map<number, Product>()
     products.forEach((product: Product) => {

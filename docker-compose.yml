@@ -1,22 +1,19 @@
-version: '3'
+version: '3.8'
 
 services:
   payload:
-    image: node:18-alpine
+    image: ludogoriesoft/winetime-node:latest
+    container_name: winetime-node
     ports:
       - '3000:3000'
-    volumes:
-      - .:/home/node/app
-      - node_modules:/home/node/app/node_modules
-    working_dir: /home/node/app/
-    command: sh -c "yarn install && yarn dev"
-    depends_on:
-      - mongo
     env_file:
       - .env
+    depends_on:
+      - mongo
 
   mongo:
     image: mongo:latest
+    container_name: winetime-mongo
     ports:
       - '27017:27017'
     command:
@@ -27,5 +24,6 @@ services:
       driver: none
 
 volumes:
+  mongo-data:
   data:
   node_modules:

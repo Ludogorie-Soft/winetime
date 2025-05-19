@@ -1,74 +1,75 @@
-import fetch from 'node-fetch';
-import dotenv from 'dotenv';
-import path from 'path';
+import fetch from 'node-fetch'
+import dotenv from 'dotenv'
+import path from 'path'
 
-dotenv.config({
-    path: path.resolve(__dirname, '../.env'),
-});
+dotenv.config({ path: path.resolve(__dirname, '../.env') })
+
+async function safeJson(res) {
+  const text = await res.text()
+  try {
+    return JSON.parse(text)
+  } catch {
+    throw new Error(`Invalid JSON from ${res.url} – body:\n${text}`)
+  }
+}
+
+async function fetchWithLogging(body, auth) {
+  const url = 'https://api.eyanak.com:5555/e-shop/api/getstockslite'
+  let res
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: auth },
+      body: JSON.stringify(body)
+    })
+  } catch (networkErr) {
+    throw new Error(`Network error fetching ${url}: ${networkErr.message}`)
+  }
+
+  const text = await res.text()
+  if (!res.ok) {
+    
+    console.error(`Eyanak API ${res.status} response:\n`, text)
+  
+    throw new Error(`Stocks fetch failed: ${res.status}`)
+  }
+
+  try {
+    return JSON.parse(text)
+  } catch {
+    throw new Error(`Invalid JSON from ${url}: ${text}`)
+  }
+}
 
 export async function fetchEyanakData() {
-    const yanakLoginBody = {
-        "email": process.env.YANAK_EMAIL,
-        "username": process.env.YANAK_USERNAME
-    };
+  const loginRes = await fetch('https://api.eyanak.com:5555/e-shop/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: process.env.YANAK_EMAIL, username: process.env.YANAK_USERNAME })
+  })
+  if (!loginRes.ok) {
+    const errText = await loginRes.text()
+    throw new Error(`Login failed (${loginRes.status}): ${errText}`)
+  }
+  const { token } = await safeJson(loginRes)
+  const auth = `Bearer ${token}`
 
-    const yanakPiazzaBody = {
-        "warehouse_id": 2
-    };
+  const warehouses = [ { warehouse_id: 2 }, { warehouse_id: 5 } ]
+  const allStocks = []
+  for (const body of warehouses) {
+    try {
+      const data = await fetchWithLogging(body, auth)
+      const arr = Array.isArray(data) ? data : Object.values(data).flat()
+      allStocks.push(...arr)
+    } catch (err) {
+      console.warn(`Skipping warehouse ${body.warehouse_id}:`, err.message)
+    }
+  }
 
-    const yanakAlikaBody = {
-        "warehouse_id": 5
-    };
-
-    const yanakLoginResponse = await fetch('https://api.eyanak.com:5555/e-shop/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(yanakLoginBody)
-    });
-
-    const authBearerToken = await yanakLoginResponse.json();
-    const authToken = `Bearer ${authBearerToken.token}`;
-
-    const [yanakPiazzaStocksResponse, yanakAlikaStocksResponse] = await Promise.all([
-        fetch('https://api.eyanak.com:5555/e-shop/api/getstockslite', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': authToken,
-            },
-            body: JSON.stringify(yanakPiazzaBody)
-        }),
-        fetch('https://api.eyanak.com:5555/e-shop/api/getstockslite', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': authToken,
-            },
-            body: JSON.stringify(yanakAlikaBody)
-        })
-    ]);
-
-    const yanakPiazzaStocks = await yanakPiazzaStocksResponse.json();
-    const yanakAlikaStocks = await yanakAlikaStocksResponse.json();
-
-    const yanakPiazzaStocksArray = Array.isArray(yanakPiazzaStocks) ? yanakPiazzaStocks : Object.values(yanakPiazzaStocks).flat();
-    const yanakAlikaStocksArray = Array.isArray(yanakAlikaStocks) ? yanakAlikaStocks : Object.values(yanakAlikaStocks).flat();
-
-    const combinedStocks = [...yanakPiazzaStocksArray, ...yanakAlikaStocksArray];
-
-    const stocksData = combinedStocks.reduce((acc, stock) => {
-        const existingStock = acc.find(item => item.barcode === stock.code);
-        if (existingStock) {
-            existingStock.quantity += stock.quantity;
-        } else {
-            acc.push({
-                barcode: stock.code,
-                quantity: stock.quantity,
-                price: stock.price
-            });
-        }
-        return acc;
-    }, []);
-
-    return stocksData;
+  return allStocks.reduce((acc, { code, quantity, price }) => {
+    const existing = acc.find(x => x.barcode === code)
+    if (existing) existing.quantity += quantity
+    else acc.push({ barcode: code, quantity, price })
+    return acc
+  }, [])
 }
