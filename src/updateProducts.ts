@@ -7,28 +7,6 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-const loginUserAndGetToken = async (email, password) => {
-  const GRAPHQL_API_URL = process.env.NEXT_BUILD
-    ? `http://127.0.0.1:${process.env.PORT || 3000}`
-    : process.env.NEXT_PUBLIC_SERVER_URL
-
-  const response = await fetch(`${GRAPHQL_API_URL}/api/users/login`, {
-    method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-  })
-
-  if (response.ok) {
-    const data = await response.json()
-    return data.token
-  } else {
-    throw new Error('Failed to log in')
-  }
-}
-
 export const updateProducts = async () => {
   const GRAPHQL_API_URL = process.env.NEXT_BUILD
     ? `http://127.0.0.1:${process.env.PORT || 3000}`
@@ -42,7 +20,6 @@ export const updateProducts = async () => {
   console.log(`Update user: ${userEmail}`)
 
   try {
-    const token = await loginUserAndGetToken(userEmail, userPassword)
     const yanakStocks = await fetchEyanakData()
     console.log('Fetched Eyanak data:', yanakStocks)
 
@@ -88,7 +65,7 @@ export const updateProducts = async () => {
             body: JSON.stringify({ quantity: updatedQuantity, price: updatedPrice }),
             headers: {
               'Content-Type': 'application/json',
-              Authorization: `JWT ${token}`,
+              Authorization: `JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxYWJjZCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzE2NDI1MjAwfQ._xJ5S_6Aj3s2x_xuI0zHlOQkgqk3u4f2wVZqHZM3DPw`,
             },
           })
 
@@ -112,7 +89,7 @@ export const updateProducts = async () => {
       await delay(delayTime)
     }
 
-    console.log('Products updated successfully')
+    console.log('Products fetched successfully')
   } catch (error) {
     console.error('Failed to update products:', error)
   }
