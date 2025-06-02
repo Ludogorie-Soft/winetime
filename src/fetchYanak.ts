@@ -62,6 +62,7 @@ export async function fetchEyanakData() {
       const arr = Array.isArray(data) ? data : Object.values(data).flat()
       allStocks.push(...arr)
     } catch (err) {
+      console.log(err)
       console.warn(`Skipping warehouse ${body.warehouse_id}:`, err.message)
     }
   }
