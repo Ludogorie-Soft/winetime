@@ -1,6 +1,6 @@
 FROM node:18.8-alpine as base
 
-ENV NEXT_PUBLIC_SERVER_URL=http://52.58.69.71:3000
+ENV NEXT_PUBLIC_SERVER_URL=http://winetime-87ec002.payloadcms.app
 
 FROM base as builder
 
