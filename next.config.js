@@ -11,6 +11,8 @@ module.exports = {
   images: {
     domains: [
       'localhost',
+      'winetime.bg',
+      'www.winetime.bg',
       process.env.NEXT_PUBLIC_SERVER_URL
     ]
       .filter(Boolean)
